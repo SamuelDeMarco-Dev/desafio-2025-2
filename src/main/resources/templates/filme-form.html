@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Buscar Filme</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+<h1>Buscar Filme na API</h1>
+
+<form th:action="@{/filmes/buscar-api}" method="post">
+  <label for="titulo">Título do Filme:</label>
+  <input type="text" id="titulo" name="titulo" required>
+  <button type="submit">Buscar e Salvar</button>
+</form>
+
+<p th:if="${erro}" th:text="${erro}" style="color:red;"></p>
+
+<a th:href="@{/filmes}">Voltar para lista</a>
+</body>
+</html>
