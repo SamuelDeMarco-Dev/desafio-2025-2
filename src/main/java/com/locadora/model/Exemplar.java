@@ -1,23 +1,38 @@
 package com.locadora.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.Date;
 
-@Setter
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "exemplar")
 @Getter
+@Setter
 @NoArgsConstructor
 public class Exemplar {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Um exemplar pertence a um único filme
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "filme_id", nullable = false)
     private Filme filme;
-    private Date dataCadastro;
+
+    @Column(name = "data_cadastro")
+    private LocalDate dataCadastro;
+
     private boolean ativo;
 
-    public Exemplar(int id, Filme filme, Date dataCadastro, boolean ativo) {
-        this.id = id;
-        this.filme = filme;
-        this.dataCadastro = dataCadastro;
-        this.ativo = ativo;
+    // Seta a data de cadastro automaticamente, se não for informada
+    @PrePersist
+    public void prePersist() {
+        if (this.dataCadastro == null) {
+            this.dataCadastro = LocalDate.now();
+        }
     }
 }

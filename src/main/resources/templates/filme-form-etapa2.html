@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- templates/filme-form-etapa2.html -->
+<form th:action="@{/filmes/confirmar}" method="post" th:object="${filme}">
+    <input type="hidden" th:field="*{titulo}" />
+    <input type="hidden" th:field="*{resumo}" />
+    <input type="hidden" th:field="*{pontuacao}" />
+    <input type="hidden" th:field="*{lancamento}" />
+
+    <p>Deseja adicionar exemplares?</p>
+    <button name="addExemplares" value="true" class="btn btn-success">Sim</button>
+    <button name="addExemplares" value="false" class="btn btn-secondary">Não</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Novo Exemplar</title>
+</head>
+<body>
+<form th:action="@{/filmes/salvar-com-exemplares}" method="post" th:object="${filme}">
+  <input type="hidden" th:field="*{id}" />
+  <input type="hidden" th:field="*{titulo}" />
+  <input type="hidden" th:field="*{resumo}" />
+  <input type="hidden" th:field="*{pontuacao}" />
+  <input type="hidden" th:field="*{lancamento}" />
+
+  <div class="form-group">
+    <label>Quantidade de exemplares:</label>
+    <input type="number" name="quantidade" class="form-control" min="1" required>
+  </div>
+
+  <div class="form-group">
+    <label>Data de Cadastro (opcional):</label>
+    <input type="date" name="dataCadastro" class="form-control">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Cadastrar</button>
+</form>
+
+</body>
+</html>

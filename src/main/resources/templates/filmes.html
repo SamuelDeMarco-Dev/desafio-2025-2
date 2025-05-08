@@ -2,33 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Lista de Filmes</title>
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
 </head>
 <body>
-<h1>Filmes Salvos</h1>
+<div class="container mt-4">
+    <h1>Filmes Salvos</h1>
 
-<a th:href="@{/filmes/novo}">Cadastrar novo filme</a>
+    <a class="btn btn-success mb-3" th:href="@{/filmes/novo}">Cadastrar novo filme</a>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>Título</th>
-        <th>Resumo</th>
-        <th>Pontuação</th>
-        <th>Lançamento</th>
-        <th>Exemplares Disponiveis</th>
-        <th>Ativo</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="filme : ${filmes}">
-        <td th:text="${filme.titulo}">Título</td>
-        <td th:text="${filme.resumo}">Resumo</td>
-        <td th:text="${filme.pontuacao}">0.0</td>
-        <td th:text="${filme.lancamento}">Data</td>
-        <td th:text="${filme.exemplaresDisponiveis}">ExemplaresDisponiveis</td>
-        <td th:text="${filme.ativo}">Ativo</td>
-    </tr>
-    </tbody>
-</table>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>Título</th>
+            <th>Resumo</th>
+            <th>Pontuação</th>
+            <th>Lançamento</th>
+            <th>Exemplares Disponíveis</th>
+            <th>Ativo</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="filme : ${filmes}">
+            <td th:text="${filme.titulo}">Título</td>
+            <td th:text="${filme.resumo}">Resumo</td>
+            <td th:text="${filme.pontuacao}">0.0</td>
+            <td th:text="${filme.lancamento}">Data</td>
+            <td th:text="${filme.exemplaresDisponiveis}">0</td>
+            <td>
+                <span class="badge" th:classappend="${filme.ativo} ? 'badge-success' : 'badge-danger'"
+                      th:text="${filme.ativo} ? 'Sim' : 'Não'"></span>
+            </td>
+            <td>
+                <a th:href="@{/exemplares/por-filme(id=${filme.id})}" class="btn btn-sm btn-info">Exemplares</a>
+                <a th:href="@{/filmes/editar(id=${filme.id})}" class="btn btn-sm btn-primary">Editar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
