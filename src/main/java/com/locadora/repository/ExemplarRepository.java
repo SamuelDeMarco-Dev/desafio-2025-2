@@ -11,4 +11,6 @@ public interface ExemplarRepository extends JpaRepository<Exemplar, Long> {
     long countByFilmeAndAtivoTrue(Filme filme);
 
     List<Exemplar> findByFilme(Filme filme);
+
+    List<Exemplar> findByAtivoTrue();
 }

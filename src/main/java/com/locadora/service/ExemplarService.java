@@ -25,6 +25,10 @@ public class ExemplarService {
         return exemplarRepository.findAll();
     }
 
+    public List<Exemplar> listarTodosAtivos() {
+        return exemplarRepository.findByAtivoTrue();
+    }
+
     @Transactional
     public void salvar(Exemplar exemplar) {
         Filme filme = exemplar.getFilme();
