@@ -5,6 +5,7 @@ import com.locadora.model.Exemplar;
 import com.locadora.model.Filme;
 import com.locadora.repository.ExemplarRepository;
 import com.locadora.repository.FilmeRepository;
+import com.locadora.repository.LocacaoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +18,14 @@ public class FilmeService {
 
     private final ExemplarRepository exemplarRepository;
     private final FilmeRepository filmeRepository;
+    private final LocacaoRepository locacaoRepository;
 
-    public FilmeService(FilmeRepository filmeRepository, ExemplarRepository exemplarRepository) {
+    public FilmeService(FilmeRepository filmeRepository,
+                        ExemplarRepository exemplarRepository,
+                        LocacaoRepository locacaoRepository) {
         this.filmeRepository = filmeRepository;
         this.exemplarRepository = exemplarRepository;
+        this.locacaoRepository = locacaoRepository;
     }
 
     public Filme converterParaFilme(FilmeDto dto) {
@@ -58,23 +63,36 @@ public class FilmeService {
         Filme original = filmeRepository.findById(filmeEditado.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
 
-        original.setAtivo(filmeEditado.isAtivo());
-        filmeRepository.save(original);
+        boolean estavaAtivo = original.isAtivo();
+        boolean desejaInativar = !filmeEditado.isAtivo();
 
-        if (!filmeEditado.isAtivo()) {
+        if (estavaAtivo && desejaInativar) {
             desativarFilmeComExemplares(original);
+        } else {
+            original.setAtivo(filmeEditado.isAtivo());
+            filmeRepository.save(original);
         }
     }
 
-
     @Transactional
     public void desativarFilmeComExemplares(Filme filme) {
-        filme.setAtivo(false);
         List<Exemplar> exemplares = exemplarRepository.findByFilme(filme);
+
+        boolean algumLocado = exemplares.stream()
+                .anyMatch(e -> locacaoRepository.findByExemplarId(e.getId())
+                        .stream()
+                        .anyMatch(l -> !l.isFinalizada()));
+
+        if (algumLocado) {
+            throw new IllegalStateException("Não é possível inativar: há exemplares locados.");
+        }
+
         for (Exemplar e : exemplares) {
             e.setAtivo(false);
         }
         exemplarRepository.saveAll(exemplares);
+
+        filme.setAtivo(false);
         filme.setExemplaresDisponiveis(0);
         filmeRepository.save(filme);
     }
@@ -110,5 +128,4 @@ public class FilmeService {
             filmeRepository.save(filme);
         }
     }
-
 }

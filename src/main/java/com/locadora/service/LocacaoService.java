@@ -28,12 +28,16 @@ public class LocacaoService {
 
     @Transactional
     public Locacao realizarLocacao(Locacao locacao) {
+        long locacoesAtivasDoCliente = locacaoRepository.findByCpfAndFinalizadaFalse(locacao.getCpf()).size();
+        if (locacoesAtivasDoCliente >= 3) {
+            throw new IllegalStateException("O cliente já possui 3 locações ativas.");
+        }
         try {
             Exemplar exemplar = exemplarRepository.findById(locacao.getExemplar().getId())
                     .orElseThrow(() -> new IllegalArgumentException("Exemplar não encontrado"));
             locacao.setExemplar(exemplar);
 
-            if (!exemplar.isAtivo()) {
+            if (!exemplar.getAtivo()) {
                 throw new IllegalStateException("Exemplar não está ativo para locação");
             }
 
@@ -46,6 +50,9 @@ public class LocacaoService {
 
             exemplar.setAtivo(false);
             exemplarRepository.save(exemplar);
+
+            long ativos = exemplarRepository.countByFilmeAndAtivoTrue(exemplar.getFilme());
+            exemplar.getFilme().setExemplaresDisponiveis(ativos);
 
             locacao.setDataLocacao(LocalDate.now());
             locacao.setDataDevolucao(LocalDate.now().plusDays(7));
@@ -66,8 +73,6 @@ public class LocacaoService {
         }
     }
 
-
-
     @Transactional
     public Locacao finalizarLocacao(Long id) {
         Locacao locacao = locacaoRepository.findById(id)
@@ -75,6 +80,8 @@ public class LocacaoService {
 
         Exemplar exemplar = locacao.getExemplar();
         exemplar.setAtivo(true);
+        long ativos = exemplarRepository.countByFilmeAndAtivoTrue(exemplar.getFilme());
+        exemplar.getFilme().setExemplaresDisponiveis(ativos);
         exemplarRepository.save(exemplar);
 
         locacao.setDataDevolvido(LocalDate.now());

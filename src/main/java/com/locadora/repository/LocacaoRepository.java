@@ -10,4 +10,5 @@ import java.util.List;
 public interface LocacaoRepository extends JpaRepository<Locacao, Long> {
     List<Locacao> findByFinalizadaFalse();
     List<Locacao> findByExemplarId(Long exemplarId);
+    List<Locacao> findByCpfAndFinalizadaFalse(String cpf);
 }

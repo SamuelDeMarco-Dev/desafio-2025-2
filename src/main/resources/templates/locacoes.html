@@ -1,60 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Locações</title>
-  <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="/dist/css/adminlte.min.css"/>
+    <meta charset="UTF-8">
+    <title>Locações</title>
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css"/>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper container mt-4">
-  <section class="content">
-    <div class="card">
-      <div class="card-header bg-primary">
-        <h3 class="card-title">Locações</h3>
-        <div class="card-tools">
-          <a th:href="@{/locacoes/nova}" class="btn btn-success">Nova Locação</a>
+    <section class="content">
+        <div class="card">
+            <div class="card-header bg-primary">
+                <h3 class="card-title">Locações</h3>
+                <div class="card-tools">
+                    <a th:href="@{/locacoes/nova}" class="btn btn-success">Nova Locação</a>
+                    <a th:href="@{/}" class="btn btn-success">Voltar</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div th:if="${erro != null}" class="alert alert-danger" th:text="${erro}"></div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Exemplar</th>
+                        <th>Cliente</th>
+                        <th>Data Locação</th>
+                        <th>Data Devolução</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="locacao : ${locacoes}">
+                        <td th:text="${locacao.id}"></td>
+                        <td th:text="${locacao.exemplar.filme.titulo} + ' - ' + ${locacao.exemplar.id}"></td>
+                        <td th:text="${locacao.nome}"></td>
+                        <td th:text="${locacao.dataLocacao}"></td>
+                        <td th:text="${locacao.dataDevolucao}"></td>
+                        <td>
+                            <span th:if="${locacao.finalizada}" class="badge badge-success">Finalizada</span>
+                            <span th:if="${!locacao.finalizada}" class="badge badge-warning">Ativa</span>
+                        </td>
+                        <td>
+                            <a th:if="${!locacao.finalizada}"
+                               th:href="@{/locacoes/finalizar/} + ${locacao.id}"
+                               class="btn btn-sm btn-danger">Finalizar</a>
+                            <div th:if="${locacao.qrCode != null}">
+                                <img th:if="${locacao.qrCode != null}" th:src="${locacao.qrCode}" width="100" height="100" />
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </div>
-      <div class="card-body">
-        <div th:if="${erro != null}" class="alert alert-danger" th:text="${erro}"></div>
-        <table class="table table-bordered table-striped">
-          <thead>
-          <tr>
-            <th>ID</th>
-            <th>Exemplar</th>
-            <th>Cliente</th>
-            <th>Data Locação</th>
-            <th>Data Devolução</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="locacao : ${locacoes}">
-            <td th:text="${locacao.id}"></td>
-            <td th:text="${locacao.exemplar.filme.titulo} + ' - ' + ${locacao.exemplar.id}"></td>
-            <td th:text="${locacao.nome}"></td>
-            <td th:text="${locacao.dataLocacao}"></td>
-            <td th:text="${locacao.dataDevolucao}"></td>
-            <td>
-              <span th:if="${locacao.finalizada}" class="badge badge-success">Finalizada</span>
-              <span th:if="${!locacao.finalizada}" class="badge badge-warning">Ativa</span>
-            </td>
-            <td>
-              <a th:if="${!locacao.finalizada}"
-                 th:href="@{/locacoes/finalizar/} + ${locacao.id}"
-                 class="btn btn-sm btn-danger">Finalizar</a>
-              <div th:if="${locacao.qrCode != null}">
-                <img th:if="${locacao.qrCode != null}" th:src="${locacao.qrCode}" width="100" height="100" />
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+    </section>
 </div>
 <script src="/plugins/jquery/jquery.min.js"></script>
 <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

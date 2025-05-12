@@ -13,4 +13,6 @@ public interface ExemplarRepository extends JpaRepository<Exemplar, Long> {
     List<Exemplar> findByFilme(Filme filme);
 
     List<Exemplar> findByAtivoTrue();
+
+    List<Exemplar> findByFilmeId(Long filmeId);
 }

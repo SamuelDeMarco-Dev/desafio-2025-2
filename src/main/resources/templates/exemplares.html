@@ -1,43 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Exemplares do Filme</title>
-  <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="/dist/css/adminlte.min.css"/>
+    <meta charset="UTF-8">
+    <title>Exemplares do Filme</title>
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css"/>
 </head>
 <body class="hold-transition sidebar-mini">
+<div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
 <div class="wrapper container mt-4">
-  <section class="content">
-    <div class="card">
-      <div class="card-header bg-primary">
-        <h3 class="card-title">Exemplares do Filme: <span th:text="${filme.titulo}"></span></h3>
-      </div>
-      <div class="card-body">
-        <table class="table table-bordered table-striped">
-          <thead>
-          <tr>
-            <th>ID</th>
-            <th>Data de Cadastro</th>
-            <th>Ativo</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="exemplar : ${exemplares}">
-            <td th:text="${exemplar.id}">1</td>
-            <td th:text="${exemplar.dataCadastro}">2025-01-01</td>
-            <td>
-              <span class="badge" th:classappend="${exemplar.ativo} ? 'badge-success' : 'badge-danger'" th:text="${exemplar.ativo} ? 'Sim' : 'Não'"></span>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="card-footer">
-        <a th:href="@{/filmes}" class="btn btn-secondary">Voltar</a>
-      </div>
-    </div>
-  </section>
+    <section class="content">
+        <div class="card">
+            <div class="card-header bg-primary">
+                <h3 class="card-title">
+                    Exemplares do Filme: <span th:text="${filme.titulo}"></span>
+                    <small class="text-muted">(Disponíveis: <span th:text="${filme.exemplaresDisponiveis}"></span>)</small>
+                </h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data de Cadastro</th>
+                        <th>Ativo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="exemplar : ${exemplares}">
+                        <td th:text="${exemplar.id}">1</td>
+                        <td th:text="${exemplar.dataCadastro}">2025-01-01</td>
+                        <td>
+    <span class="badge" th:classappend="${exemplar.ativo} ? 'badge-success' : 'badge-danger'"
+          th:text="${exemplar.ativo} ? 'Sim' : 'Não'"></span>
+                        </td>
+                        <td>
+                            <!-- Botão de inativar (exibe apenas se ativo) -->
+                            <form th:action="@{'/exemplares/inativar/' + ${exemplar.id}}" method="post" th:if="${exemplar.ativo}">
+                                <input type="hidden" name="filmeId" th:value="${filme.id}" />
+                                <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Deseja inativar este exemplar?')">Inativar</button>
+                            </form>
+
+                            <!-- Botão de reativar (exibe apenas se inativo) -->
+                            <form th:action="@{'/exemplares/reativar/' + ${exemplar.id}}" method="post" th:if="${!exemplar.ativo}">
+                                <input type="hidden" name="filmeId" th:value="${filme.id}" />
+                                <button type="submit" class="btn btn-sm btn-success"
+                                        onclick="return confirm('Deseja reativar este exemplar?')">Reativar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <a th:href="@{'/exemplares/novo?filmeId=' + ${filme.id}}" class="btn btn-primary">Cadastrar Exemplar</a>
+                <a th:href="@{/filmes}" class="btn btn-secondary">Voltar</a>
+            </div>
+        </div>
+    </section>
 </div>
 <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/dist/js/adminlte.min.js"></script>

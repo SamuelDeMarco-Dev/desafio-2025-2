@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/exemplares")
@@ -32,11 +31,45 @@ public class ExemplarController {
     }
 
     @GetMapping("/novo")
-    public String formularioNovo(Model model) {
-        model.addAttribute("exemplar", new Exemplar());
+    public String formularioNovo(@RequestParam(required = false) Long filmeId, Model model) {
+        Exemplar exemplar = new Exemplar();
+
+        if (filmeId != null) {
+            Filme filme = filmeService.buscarPorId(filmeId)
+                    .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
+            exemplar.setFilme(filme);
+            model.addAttribute("filmeBloqueado", true);
+        }
+
+        model.addAttribute("exemplar", exemplar);
         model.addAttribute("filmes", filmeService.listarTodos());
         return "exemplar-form";
     }
+
+    @PostMapping("/salvar-multiplos")
+    public String salvarMultiplos(@ModelAttribute Exemplar exemplar,
+                                  @RequestParam int quantidade,
+                                  @RequestParam("filme.id") Long filmeId,
+                                  Model model) {
+        try {
+            Filme filme = filmeService.buscarPorId(filmeId)
+                    .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
+            exemplar.setFilme(filme);
+
+            System.out.println("Salvando " + quantidade + " exemplares para filme ID: " + filmeId);
+            System.out.println("Checkbox ativo: " + exemplar.getAtivo());
+
+            exemplarService.salvarMultiplos(exemplar, quantidade);
+            return "redirect:/filmes";
+        } catch (Exception e) {
+            model.addAttribute("erro", e.getMessage());
+            model.addAttribute("exemplar", exemplar);
+            model.addAttribute("filmes", filmeService.listarTodos());
+            model.addAttribute("filmeBloqueado", exemplar.getFilme() != null);
+            return "exemplar-form";
+        }
+    }
+
 
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute Exemplar exemplar, Model model) {
@@ -62,6 +95,23 @@ public class ExemplarController {
         model.addAttribute("filme", filme);
         model.addAttribute("exemplares", exemplares);
         return "exemplares";
+    }
+
+    @PostMapping("/inativar/{id}")
+    public String inativarExemplar(@PathVariable Long id, @RequestParam("filmeId") Long filmeId) {
+        exemplarService.inativarExemplar(id);
+        return "redirect:/exemplares/por-filme?id=" + filmeId;
+    }
+
+    @PostMapping("/reativar/{id}")
+    public String reativarExemplar(@PathVariable Long id, @RequestParam("filmeId") Long filmeId, Model model) {
+        try {
+            exemplarService.reativarExemplar(id);
+        } catch (Exception e) {
+            model.addAttribute("erro", e.getMessage());
+            return listarPorFilme(filmeId, model);
+        }
+        return "redirect:/exemplares/por-filme?id=" + filmeId;
     }
 
 }

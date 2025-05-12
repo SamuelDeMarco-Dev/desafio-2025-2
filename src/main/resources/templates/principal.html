@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Locadora - Início</title>
+    <link th:href="@{/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/dist/css/adminlte.min.css}" rel="stylesheet">
+</head>
+<body class="hold-transition layout-top-nav">
+<div class="wrapper">
+    <div class="content-wrapper">
+        <div class="content-header text-center mt-5">
+            <h1 class="display-4">Sistema da Locadora</h1>
+            <p class="lead">Selecione uma opção</p>
+        </div>
+
+        <div class="content text-center">
+            <div class="container mt-5">
+                <a href="/filmes" class="btn btn-primary btn-lg mx-3">Filmes</a>
+                <a href="/locacoes" class="btn btn-success btn-lg mx-3">Locações</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+</body>
+</html>

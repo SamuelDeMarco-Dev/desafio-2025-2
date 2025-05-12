@@ -22,7 +22,7 @@ public class TmdbClient {
         try {
             TmdbResponse response = restTemplate.getForObject(TMDB_URL, TmdbResponse.class, titulo);
             if (response != null && response.getResults() != null && !response.getResults().isEmpty()) {
-                return response.getResults().get(0); // pega o primeiro resultado
+                return response.getResults().get(0);
             }
         } catch (Exception e) {
             log.error("Erro ao consultar filme no TMDB", e);
@@ -30,7 +30,6 @@ public class TmdbClient {
         return null;
     }
 
-    // Classe interna para mapear a resposta completa da API
     @Setter
     private static class TmdbResponse {
         private List<FilmeDto> results;

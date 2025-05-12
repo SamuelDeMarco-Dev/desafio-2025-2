@@ -1,58 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Nova Locação</title>
-  <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="/dist/css/adminlte.min.css"/>
+    <meta charset="UTF-8">
+    <title>Nova Locação</title>
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css"/>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper container mt-4">
-  <section class="content">
-    <div class="card card-primary">
-      <div class="card-header">
-        <h3 class="card-title">Nova Locação</h3>
-      </div>
-      <form th:action="@{/locacoes/salvar}" method="post" th:object="${locacao}">
-        <div class="card-body">
-          <div th:if="${erro != null}" class="alert alert-danger" th:text="${erro}"></div>
+    <section class="content">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Nova Locação</h3>
+            </div>
+            <form th:action="@{/locacoes/salvar}" method="post" th:object="${locacao}">
+                <div class="card-body">
+                    <div th:if="${erro != null}" class="alert alert-danger" th:text="${erro}"></div>
 
-          <div class="form-group">
-            <label>Exemplar</label>
-            <select class="form-control" th:field="*{exemplar}" required>
-              <option th:each="exemplar : ${exemplares}"
-                      th:value="${exemplar.id}"
-                      th:text="${exemplar.filme.titulo} + ' - ' + ${exemplar.id}"></option>
-            </select>
-          </div>
+                    <div class="form-group">
+                        <label>Exemplar</label>
+                        <select class="form-control" th:field="*{exemplar}" required>
+                            <option th:each="exemplar : ${exemplares}"
+                                    th:value="${exemplar.id}"
+                                    th:text="${exemplar.filme.titulo} + ' - ' + ${exemplar.id}"></option>
+                        </select>
+                    </div>
 
-          <div class="form-group">
-            <label>Nome do Cliente</label>
-            <input type="text" class="form-control" th:field="*{nome}" required>
-          </div>
+                    <div class="form-group">
+                        <label>Nome do Cliente</label>
+                        <input type="text" class="form-control" th:field="*{nome}" required>
+                    </div>
 
-          <div class="form-group">
-            <label>CPF</label>
-            <input type="text" class="form-control" th:field="*{cpf}" required>
-          </div>
+                    <div class="form-group">
+                        <label>CPF</label>
+                        <input type="text" class="form-control" th:field="*{cpf}" required>
+                    </div>
 
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" class="form-control" th:field="*{email}">
-          </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" th:field="*{email}">
+                    </div>
 
-          <div class="form-group">
-            <label>Telefone</label>
-            <input type="text" class="form-control" th:field="*{telefone}">
-          </div>
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input type="text" class="form-control" th:field="*{telefone}">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <a th:href="@{/locacoes}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
         </div>
-        <div class="card-footer">
-          <button type="submit" class="btn btn-primary">Salvar</button>
-          <a th:href="@{/locacoes}" class="btn btn-secondary">Cancelar</a>
-        </div>
-      </form>
-    </div>
-  </section>
+    </section>
 </div>
 <script src="/plugins/jquery/jquery.min.js"></script>
 <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

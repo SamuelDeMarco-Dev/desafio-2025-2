@@ -18,7 +18,6 @@ public class Exemplar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Um exemplar pertence a um único filme
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "filme_id", nullable = false)
     private Filme filme;
@@ -28,11 +27,18 @@ public class Exemplar {
 
     private boolean ativo;
 
-    // Seta a data de cadastro automaticamente, se não for informada
     @PrePersist
     public void prePersist() {
         if (this.dataCadastro == null) {
             this.dataCadastro = LocalDate.now();
         }
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 }

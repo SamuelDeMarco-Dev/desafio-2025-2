@@ -39,27 +39,12 @@ public class FilmeController {
         return "filme-form";
     }
 
-    @GetMapping("/editar")
-    public String editarFilme(@RequestParam Long id, Model model) {
-        Filme filme = filmeService.buscarPorId(id).orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
-        model.addAttribute("filme", filme);
-        return "filme-editar";
-    }
-
-    @PostMapping("/editar")
-    public String atualizarFilme(@ModelAttribute Filme filme) {
-        filmeService.atualizarFilme(filme);
-        return "redirect:/filmes";
-    }
-
-
     @PostMapping("/buscar-api")
     public String buscarDaApi(@RequestParam String titulo, Model model) {
         if (filmeService.existeTitulo(titulo)) {
             model.addAttribute("erro", "Esse filme já foi cadastrado.");
             return "filme-form";
         }
-
 
         FilmeDto dto = tmdbClient.buscarFilmePorTitulo(titulo);
         if (dto == null) {
@@ -68,10 +53,18 @@ public class FilmeController {
         }
 
         Filme filme = filmeService.converterParaFilme(dto);
-        model.addAttribute("filme", filme);
-        return "filme-form-etapa2";
+
+        filmeService.salvarFilme(filme, false, null, null);
+
+        return "redirect:/filmes";
     }
 
+    @GetMapping("/editar")
+    public String editarFilme(@RequestParam Long id, Model model) {
+        Filme filme = filmeService.buscarPorId(id).orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
+        model.addAttribute("filme", filme);
+        return "filme-editar";
+    }
 
     @PostMapping("/salvar")
     public String salvarConfirmado(
@@ -94,46 +87,30 @@ public class FilmeController {
         return "redirect:/filmes";
     }
 
-    @PostMapping("/confirmar")
-    public String confirmarFilme(@ModelAttribute Filme filme, @RequestParam boolean addExemplares, Model model) {
-        if (!addExemplares) {
-            filmeService.salvarFilme(filme, false, null, null);
-            return "redirect:/filmes";
-        }
+    @GetMapping("/editar/{id}")
+    public String editarFilmeExemplar(@PathVariable Long id, Model model) {
+        Filme filme = filmeService.buscarPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
+
         model.addAttribute("filme", filme);
-        return "exemplar-form";
+        model.addAttribute("exemplares", exemplarService.listarPorFilme(filme.getId()));
+
+        return "filme-editar";
     }
 
-    @PostMapping("/salvar-com-exemplares")
-    public String salvarComExemplares(@ModelAttribute Filme filme,
-                                      @RequestParam int quantidade,
-                                      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataCadastro,
-                                      Model model) {
+    @PostMapping("/editar")
+    public String atualizarFilme(@ModelAttribute Filme filme, Model model) {
         try {
-            filmeService.salvarFilme(filme, true, quantidade, dataCadastro);
+            filmeService.atualizarFilme(filme);
             return "redirect:/filmes";
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             model.addAttribute("erro", e.getMessage());
             model.addAttribute("filme", filme);
-            return "exemplar-form";
-        }
-    }
-
-    @PostMapping("/adicionar-exemplares")
-    public String adicionarExemplares(@RequestParam Long id,
-                                      @RequestParam int quantidade,
-                                      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataCadastro,
-                                      Model model) {
-        try {
-            Filme filme = filmeService.buscarPorId(id).orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
-            filmeService.salvarFilme(filme, true, quantidade, dataCadastro);
-            return "redirect:/filmes";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("erro", e.getMessage());
-            model.addAttribute("filme", filmeService.buscarPorId(id).orElse(null));
+            model.addAttribute("exemplares", exemplarService.listarPorFilme(filme.getId()));
             return "filme-editar";
         }
     }
+
 
 
 }
