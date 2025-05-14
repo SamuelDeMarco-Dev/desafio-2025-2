@@ -70,7 +70,6 @@ public class ExemplarController {
         }
     }
 
-
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute Exemplar exemplar, Model model) {
         try {

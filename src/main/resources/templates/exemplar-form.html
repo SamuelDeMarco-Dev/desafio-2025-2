@@ -11,7 +11,6 @@
 
     <form th:action="@{/exemplares/salvar-multiplos}" method="post" th:object="${exemplar}">
 
-        <!-- Filme vinculado -->
         <div class="form-group">
             <label for="filme">Filme</label>
 
@@ -29,27 +28,24 @@
             </div>
         </div>
 
-        <!-- Quantidade -->
         <div class="form-group">
             <label>Quantidade de Exemplares:</label>
             <input type="number" name="quantidade" min="1" class="form-control" required />
         </div>
 
-        <!-- Data de Cadastro -->
         <div class="form-group">
             <label>Data de Cadastro:</label>
             <input type="date" th:field="*{dataCadastro}" class="form-control" />
         </div>
 
-        <!-- Ativo -->
         <div class="form-group form-check">
             <input type="checkbox" th:field="*{ativo}" class="form-check-input"/>
             <label class="form-check-label" th:for="*{ativo}">Ativo</label>
         </div>
 
-        <!-- Botões -->
         <button type="submit" class="btn btn-primary">Salvar Exemplares</button>
         <a th:href="@{/filmes}" class="btn btn-secondary">Cancelar</a>
+        <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
     </form>
 </div>
 

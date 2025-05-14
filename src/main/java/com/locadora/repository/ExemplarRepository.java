@@ -7,12 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ExemplarRepository extends JpaRepository<Exemplar, Long> {
-
     long countByFilmeAndAtivoTrue(Filme filme);
-
     List<Exemplar> findByFilme(Filme filme);
-
     List<Exemplar> findByAtivoTrue();
-
     List<Exemplar> findByFilmeId(Long filmeId);
 }

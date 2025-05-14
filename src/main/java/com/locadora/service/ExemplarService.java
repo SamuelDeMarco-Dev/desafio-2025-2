@@ -104,7 +104,7 @@ public class ExemplarService {
                 .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
 
         if (!filme.isAtivo()) {
-            filme.setAtivo(true);
+            throw new IllegalStateException("Não é possível adicionar exemplares a um filme inativo.");
         }
 
         for (int i = 0; i < quantidade; i++) {
