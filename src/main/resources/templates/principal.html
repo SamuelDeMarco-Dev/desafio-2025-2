@@ -20,6 +20,13 @@
                 <a href="/locacoes" class="btn btn-success btn-lg mx-3">Locações</a>
             </div>
         </div>
+
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+        </form>
+
     </div>
 </div>
 

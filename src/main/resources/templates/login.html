@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Login - Sistema</title>
@@ -13,7 +13,7 @@
 <div class="login-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="#" class="h1"><b>Sistema</b> Login</a>
+      <a class="h1"><b>Sistema</b> Login</a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Entre com seu usuário e senha</p>
@@ -32,18 +32,17 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-8">
-            <!-- espaço para checkbox "lembrar-me" se quiser -->
-          </div>
           <div class="col-4">
             <button type="submit" class="btn btn-primary btn-block">Entrar</button>
           </div>
         </div>
+        <div th:if="${param.error}" class="alert alert-danger">
+          Usuário ou senha inválidos.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+          Você saiu com sucesso.
+        </div>
       </form>
-
-      <p class="mt-3 mb-1">
-        <a href="#">Esqueceu sua senha?</a>
-      </p>
     </div>
   </div>
 </div>
