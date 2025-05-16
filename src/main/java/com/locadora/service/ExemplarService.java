@@ -122,6 +122,11 @@ public class ExemplarService {
     public void reativarExemplar(Long id) {
         Exemplar exemplar = exemplarRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Exemplar não encontrado"));
+        Filme filme = exemplar.getFilme();
+
+        if (!filme.isAtivo()) {
+            throw new IllegalStateException("Não é possível reativar exemplar: o filme está inativo.");
+        }
 
         boolean exemplarEstaLocado = locacaoRepository.findByExemplarId(exemplar.getId())
                 .stream()
@@ -133,8 +138,9 @@ public class ExemplarService {
 
         exemplar.setAtivo(true);
         exemplarRepository.save(exemplar);
-        atualizarExemplaresDisponiveis(exemplar.getFilme());
+        atualizarExemplaresDisponiveis(filme);
     }
+
 
     public List<Exemplar> listarPorFilme(Long filmeId) {
         return exemplarRepository.findByFilmeId(filmeId);
