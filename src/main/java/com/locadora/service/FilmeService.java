@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class FilmeService {
@@ -87,9 +89,9 @@ public class FilmeService {
             throw new IllegalStateException("Não é possível inativar: há exemplares locados.");
         }
 
-        for (Exemplar e : exemplares) {
-            e.setAtivo(false);
-        }
+        exemplares.stream()
+                .forEach(e -> e.setAtivo(false));
+
         exemplarRepository.saveAll(exemplares);
 
         filme.setAtivo(false);
@@ -111,13 +113,16 @@ public class FilmeService {
             filme.setAtivo(true);
             Filme filmeSalvo = filmeRepository.save(filme);
 
-            for (int i = 0; i < quantidade; i++) {
-                Exemplar ex = new Exemplar();
-                ex.setFilme(filmeSalvo);
-                ex.setAtivo(true);
-                ex.setDataCadastro(dataCadastro != null ? dataCadastro : LocalDate.now());
-                exemplarRepository.save(ex);
-            }
+            List<Exemplar> exemplares = IntStream.range(0, quantidade)
+                    .mapToObj(i -> {
+                        Exemplar ex = new Exemplar();
+                        ex.setFilme(filmeSalvo);
+                        ex.setAtivo(true);
+                        ex.setDataCadastro(dataCadastro != null ? dataCadastro : LocalDate.now());
+                        return ex;
+                    })
+                    .collect(Collectors.toList());
+            exemplarRepository.saveAll(exemplares);
 
             long ativos = exemplarRepository.countByFilmeAndAtivoTrue(filmeSalvo);
             filmeSalvo.setExemplaresDisponiveis(ativos);

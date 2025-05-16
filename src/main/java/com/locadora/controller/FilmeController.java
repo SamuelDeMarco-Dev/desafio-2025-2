@@ -51,11 +51,8 @@ public class FilmeController {
             model.addAttribute("erro", "Filme não encontrado na API.");
             return "filme-form";
         }
-
         Filme filme = filmeService.converterParaFilme(dto);
-
         filmeService.salvarFilme(filme, false, null, null);
-
         return "redirect:/filmes";
     }
 
@@ -82,7 +79,6 @@ public class FilmeController {
         filme.setLancamento(LocalDate.parse(lancamento));
         filme.setAtivo(Boolean.TRUE.equals(ativo));
         filme.setExemplaresDisponiveis(exemplaresDisponiveis);
-
         filmeService.salvar(filme);
         return "redirect:/filmes";
     }
@@ -91,10 +87,8 @@ public class FilmeController {
     public String editarFilmeExemplar(@PathVariable Long id, Model model) {
         Filme filme = filmeService.buscarPorId(id)
                 .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
-
         model.addAttribute("filme", filme);
         model.addAttribute("exemplares", exemplarService.listarPorFilme(filme.getId()));
-
         return "filme-editar";
     }
 

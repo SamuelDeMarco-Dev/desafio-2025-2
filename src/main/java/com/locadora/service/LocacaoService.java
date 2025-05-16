@@ -97,4 +97,9 @@ public class LocacaoService {
     public List<Locacao> listarTodasLocacoes() {
         return locacaoRepository.findAll();
     }
+
+    public List<Locacao> consultarLocacoesPendentesPorCpf(String cpf) {
+        return locacaoRepository.findByCpfAndFinalizadaFalse(cpf);
+    }
+
 }

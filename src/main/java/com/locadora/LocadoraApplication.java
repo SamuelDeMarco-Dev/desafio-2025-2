@@ -7,11 +7,9 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class LocadoraApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(LocadoraApplication.class, args);
 	}
-
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();

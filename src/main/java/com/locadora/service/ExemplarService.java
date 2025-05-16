@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 @Service
 public class ExemplarService {
@@ -39,11 +40,9 @@ public class ExemplarService {
     @Transactional
     public void salvar(Exemplar exemplar) {
         Filme filme = exemplar.getFilme();
-
         if (!filme.isAtivo()) {
             filme.setAtivo(true);
         }
-
         exemplarRepository.save(exemplar);
         atualizarExemplaresDisponiveis(filme);
     }
@@ -88,7 +87,6 @@ public class ExemplarService {
 
         exemplar.setAtivo(false);
         exemplarRepository.save(exemplar);
-
         atualizarExemplaresDisponiveis(exemplar.getFilme());
     }
 
@@ -107,7 +105,7 @@ public class ExemplarService {
             throw new IllegalStateException("Não é possível adicionar exemplares a um filme inativo.");
         }
 
-        for (int i = 0; i < quantidade; i++) {
+        IntStream.range(0, quantidade).forEach(i -> {
             Exemplar novo = new Exemplar();
             novo.setFilme(filme);
             novo.setDataCadastro(
@@ -115,7 +113,8 @@ public class ExemplarService {
             );
             novo.setAtivo(Boolean.TRUE.equals(exemplarBase.getAtivo()));
             exemplarRepository.saveAndFlush(novo);
-        }
+        });
+
         atualizarExemplaresDisponiveis(filme);
     }
 
@@ -140,5 +139,4 @@ public class ExemplarService {
     public List<Exemplar> listarPorFilme(Long filmeId) {
         return exemplarRepository.findByFilmeId(filmeId);
     }
-
 }

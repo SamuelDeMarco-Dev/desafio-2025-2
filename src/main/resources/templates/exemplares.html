@@ -35,14 +35,11 @@
           th:text="${exemplar.ativo} ? 'Sim' : 'Não'"></span>
                         </td>
                         <td>
-                            <!-- Botão de inativar (exibe apenas se ativo) -->
                             <form th:action="@{'/exemplares/inativar/' + ${exemplar.id}}" method="post" th:if="${exemplar.ativo}">
                                 <input type="hidden" name="filmeId" th:value="${filme.id}" />
                                 <button type="submit" class="btn btn-sm btn-danger"
                                         onclick="return confirm('Deseja inativar este exemplar?')">Inativar</button>
                             </form>
-
-                            <!-- Botão de reativar (exibe apenas se inativo) -->
                             <form th:action="@{'/exemplares/reativar/' + ${exemplar.id}}" method="post" th:if="${!exemplar.ativo}">
                                 <input type="hidden" name="filmeId" th:value="${filme.id}" />
                                 <button type="submit" class="btn btn-sm btn-success"
