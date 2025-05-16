@@ -3,6 +3,7 @@ package com.locadora.security;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,13 +29,18 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Order(1)
     public SecurityFilterChain publicApiFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher("/api/public/**")
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/error").permitAll() // LIBERA O ENDPOINT DE ERRO
+                        .anyRequest().permitAll()
+                )
                 .csrf(csrf -> csrf.disable())
                 .securityContext(context -> context.requireExplicitSave(false))
                 .sessionManagement(session -> session.disable());
+
         return http.build();
     }
 
@@ -42,7 +48,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/public/**").permitAll()
+                        .requestMatchers("/login", "/public/**", "/error").permitAll() // <- liberação aqui também
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -65,7 +71,6 @@ public class SecurityConfig {
                             response.getWriter().write("{\"error\": \"Acesso não autorizado\"}");
                         })
                 );
-
         return http.build();
     }
 
@@ -83,5 +88,3 @@ public class SecurityConfig {
         return web -> web.httpFirewall(firewall);
     }
 }
-
-/*AJUSTAR URL PUBLICA, ERRO DE SESSÃO NÃO AUTORIZADA MESMO APÓS INCLUIR O ENDPOINT NAS PERMISSÕES LIBERADAS*/

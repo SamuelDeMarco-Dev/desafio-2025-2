@@ -1,7 +1,9 @@
 package com.locadora.controller;
 
+import com.locadora.dto.LocacaoDTO;
 import com.locadora.model.Locacao;
 import com.locadora.service.LocacaoService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,14 +18,12 @@ public class LocacaoPublicController {
         this.locacaoService = locacaoService;
     }
 
+    //http://localhost:8081/api/public/locacoes?cpf=09232016966
     @GetMapping("/locacoes")
-    public List<Locacao> consultarPorCpf(@RequestParam String cpf) {
-        return locacaoService.consultarLocacoesPendentesPorCpf(cpf);
-    }
-
-    //teste URL publica
-    @GetMapping("/ping")
-    public String ping() {
-        return "ok";
+    public ResponseEntity<?> consultarPorCpf(@RequestParam String cpf) {
+        List<Locacao> locacoes = locacaoService.consultarLocacoesPendentesPorCpf(cpf);
+        List<LocacaoDTO> dtoList = locacoes.stream().map(LocacaoDTO::new).toList();
+        return ResponseEntity.ok(dtoList);
     }
 }
+

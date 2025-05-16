@@ -5,11 +5,13 @@ import com.locadora.model.Locacao;
 import com.locadora.repository.ExemplarRepository;
 import com.locadora.repository.LocacaoRepository;
 import com.locadora.util.QRCodeUtil;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LocacaoService {
@@ -99,7 +101,12 @@ public class LocacaoService {
     }
 
     public List<Locacao> consultarLocacoesPendentesPorCpf(String cpf) {
-        return locacaoRepository.findByCpfAndFinalizadaFalse(cpf);
+        return locacaoRepository.findByCpfAndFinalizadaFalse(cpf).stream()
+                .peek(locacao -> {
+                    Hibernate.initialize(locacao.getExemplar());
+                    Optional.ofNullable(locacao.getExemplar())
+                            .ifPresent(exemplar -> Hibernate.initialize(exemplar.getFilme()));
+                })
+                .toList();
     }
-
 }
