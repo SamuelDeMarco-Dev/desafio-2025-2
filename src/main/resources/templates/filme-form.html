@@ -4,22 +4,25 @@
     <meta charset="UTF-8">
     <title>Cadastro de Filme</title>
     <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/filmes.css"/>
 </head>
 <body>
-<div class="container mt-4">
+<div class="container container-padrao">
     <h2>Cadastro de Filme</h2>
 
-    <form th:action="@{/filmes/buscar-api}" method="post" class="form-inline mb-3">
-        <div class="form-group mr-2">
-            <label for="titulo" class="mr-2">Buscar Filme:</label>
-            <input type="text" class="form-control" id="titulo" name="titulo" required placeholder="Digite o nome do filme">
+    <form th:action="@{/filmes/buscar-api}" method="post">
+        <div class="form-group">
+            <label for="titulo">Buscar Filme:</label>
+            <input type="text" id="titulo" name="titulo" class="form-control" required placeholder="Digite o nome do filme">
         </div>
-        <button type="submit" class="btn btn-primary">Buscar</button>
-        <a th:href="@{/filmes}" class="btn btn-success">Voltar</a>
-    </form>
 
-    <div th:if="${erro != null}" class="alert alert-danger" th:text="${erro}"></div>
-</div>
+        <div class="btn-grupo">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            <a th:href="@{/filmes}" class="btn btn-secondary">Voltar</a>
+        </div>
+
+        <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
+    </form>
 </div>
 </body>
 </html>

@@ -1,0 +1,165 @@
+/* Fundo com gradiente suave */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #d4f5e3, #d2eaff);
+    color: #333;
+    min-height: 100vh;
+}
+
+/* Centralizar conteúdo */
+.wrapper.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Estilo dos cards */
+.card {
+    width: 100%;
+    max-width: 2000px;
+    background-color: #ffffffdd;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #48c78e;
+    color: white;
+    padding: 15px 20px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    margin: 0;
+}
+
+.card-body, .card-footer {
+    padding: 20px;
+}
+
+/* Formulários */
+.form-group label {
+    font-weight: 500;
+}
+
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+input.form-control:focus,
+select.form-control:focus {
+    outline: none;
+    border-color: #48c78e;
+    box-shadow: 0 0 0 2px rgba(72, 199, 142, 0.2);
+}
+
+/* Botões */
+.btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #48c78e;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #3db67e;
+}
+
+.btn-secondary {
+    background-color: #ccc;
+    color: black;
+}
+
+.btn-secondary:hover {
+    background-color: #bbb;
+}
+
+.btn-success {
+    background-color: #48c78e;
+    color: white;
+    margin-left: 10px;
+}
+
+.btn-success:hover {
+    background-color: #3db67e;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+}
+
+/* Badges */
+.badge-warning {
+    background-color: #f39c12;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.badge-success {
+    background-color: #48c78e;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Tabelas */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.table th, .table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.table thead {
+    background-color: #48c78e;
+    color: white;
+}
+
+/* Busca */
+.center-form {
+    margin: 0 auto;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .card {
+        margin: 10px;
+    }
+}

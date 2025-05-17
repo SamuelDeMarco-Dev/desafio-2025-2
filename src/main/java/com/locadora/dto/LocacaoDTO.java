@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public class LocacaoDTO {
     private String nome;
     private String cpf;
+    private String email;
     private String filme;
     private LocalDate dataLocacao;
     private LocalDate dataDevolucao;
@@ -18,6 +19,7 @@ public class LocacaoDTO {
     public LocacaoDTO(Locacao locacao) {
         this.nome = locacao.getNome();
         this.cpf = locacao.getCpf();
+        this.email = locacao.getEmail();
         this.filme = locacao.getExemplar().getFilme().getTitulo();
         this.dataLocacao = locacao.getDataLocacao();
         this.dataDevolucao = locacao.getDataDevolucao();

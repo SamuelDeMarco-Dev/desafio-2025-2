@@ -1,0 +1,345 @@
+:root {
+    --verde-claro: #d4fce7;
+    --azul-claro: #cceaff;
+    --verde-destaque: #3cb371;
+    --azul-titulo: #007b83;
+    --cinza-tabela: #f2f9f7;
+    --cinza-tabela-alt: #e0f7ff;
+    --cor-botao: #56c596;
+    --cor-hover: #3ba78b;
+    --cor-perigo: #dc3545;
+}
+
+/* =========================== */
+/* ESTILIZAÇÃO GLOBAL          */
+/* =========================== */
+body {
+    background: linear-gradient(to right, var(--verde-claro), var(--azul-claro));
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+}
+
+/* Login page background fix */
+body.login-page {
+    height: 100vh;
+    align-items: center;
+    padding-top: 0;
+    background: linear-gradient(135deg, var(--verde-claro), var(--azul-claro));
+}
+
+/* =========================== */
+/* CONTAINERS E ESTRUTURA      */
+/* =========================== */
+.container, .card-body, .form-group, .form-inline {
+    text-align: center;
+}
+
+.card {
+    width: 100%;
+    max-width: 900px;
+    background-color: #ffffffdd;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border: 1px solid #d2f2eb;
+}
+
+.content-wrapper {
+    text-align: center;
+    padding: 2rem;
+}
+
+.mt-4, .mb-4, .mb-3 {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+}
+
+/* =========================== */
+/* FORMULÁRIOS                 */
+/* =========================== */
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    text-align: left;
+    width: 80%;
+    margin: 0 auto 0.5rem;
+}
+
+input.form-control,
+select.form-control,
+textarea.form-control {
+    width: 80%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    display: block;
+    margin: 0 auto 1rem;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--verde-destaque);
+    outline: none;
+    box-shadow: 0 0 5px rgba(60, 179, 113, 0.3);
+}
+
+/* Alinhamento justificado */
+textarea, p, .justificar {
+    text-align: justify;
+}
+
+/* Centralização flexível */
+.center-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* =========================== */
+/* TABELAS                     */
+/* =========================== */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    background-color: white;
+    width: 100%;
+    margin-top: 1.5rem;
+    border-collapse: collapse;
+}
+
+.table thead {
+    background-color: var(--verde-claro);
+    font-weight: bold;
+    color: #000;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--cinza-tabela);
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: var(--cinza-tabela-alt);
+}
+
+/* =========================== */
+/* BOTÕES                      */
+/* =========================== */
+button.btn,
+a.btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    background-color: var(--cor-botao);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0.3rem;
+}
+
+button.btn:hover,
+a.btn:hover {
+    background-color: var(--cor-hover);
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary {
+    background-color: #ccc;
+    color: black;
+}
+
+.btn-secondary:hover {
+    background-color: #bbb;
+}
+
+.btn-danger {
+    background-color: var(--cor-perigo);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Botões maiores na home */
+.container a.btn {
+    padding: 0.75rem 2rem;
+    font-size: 1.25rem;
+    border-radius: 10px;
+}
+
+/* =========================== */
+/* LOGIN BOX                   */
+/* =========================== */
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.card-header .h1 {
+    font-size: 2rem;
+    color: var(--azul-titulo);
+}
+
+.login-box-msg {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+}
+
+/* Input com ícones */
+.input-group {
+    margin-bottom: 1rem;
+    display: flex;
+    width: 80%;
+    margin: 0 auto 1rem;
+}
+
+.input-group .form-control {
+    border-radius: 5px 0 0 5px;
+    flex: 1;
+}
+
+.input-group .input-group-text {
+    background-color: var(--azul-claro);
+    border-radius: 0 5px 5px 0;
+    border: 1px solid #ced4da;
+    padding: 10px 15px;
+}
+
+/* Botão de login */
+button[type="submit"] {
+    width: 80%;
+    background-color: #28a745;
+    border-radius: 6px;
+    transition: 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+    transform: scale(1.02);
+}
+
+/* =========================== */
+/* LOGOUT                      */
+/* =========================== */
+form[th\\:action="@{/logout}"] {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+form[th\\:action="@{/logout}"] button.btn {
+    font-size: 1rem;
+    padding: 0.6rem 1.8rem;
+    border-radius: 10px;
+    background-color: var(--cor-perigo);
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2);
+}
+
+form[th\\:action="@{/logout}"] button.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.3);
+}
+
+/* =========================== */
+/* BADGES                      */
+/* =========================== */
+.badge {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 5px;
+}
+
+.badge-success {
+    background-color: var(--verde-destaque);
+    color: white;
+}
+
+.badge-danger {
+    background-color: var(--cor-perigo);
+    color: white;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+    color: #000;
+}
+
+/* =========================== */
+/* ALERTAS                     */
+/* =========================== */
+.alert {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+/* =========================== */
+/* BOTÕES EM COLUNA            */
+/* =========================== */
+.btn-coluna {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.btn-coluna a.btn {
+    width: 220px;
+    max-width: 90%;
+}
+
+/* =========================== */
+/* RESPONSIVIDADE              */
+/* =========================== */
+@media (max-width: 768px) {
+    .container a.btn {
+        display: block;
+        margin: 1rem auto;
+    }
+
+    .content-header h1.display-4 {
+        font-size: 2rem;
+    }
+
+    .content-header p.lead {
+        font-size: 1rem;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    .input-group .form-control,
+    .input-group .input-group-text {
+        border-radius: 6px;
+    }
+}

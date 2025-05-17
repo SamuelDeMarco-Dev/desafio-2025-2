@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Locações</title>
-    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/locacoes.css}">
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper container mt-4">
@@ -18,9 +18,10 @@
                 </div>
             </div>
             <div class="card-body">
-                <form class="form-inline mb-4" th:action="@{/locacoes}" method="get">
-                    <input type="text" name="filtro" class="form-control mr-2"
-                           placeholder="Buscar por CPF, Nome, Email ou Filme"
+                <form class="form-group center-form w-75 mb-4" th:action="@{/locacoes}" method="get">
+                    <label for="filtro">Buscar por CPF, Nome, Email ou Filme</label>
+                    <input type="text" name="filtro" id="filtro" class="form-control mb-2"
+                           placeholder="Ex: CPF, Nome, email, Nome Filme"
                            th:value="${filtro}">
                     <button type="submit" class="btn btn-primary">Buscar</button>
                 </form>
@@ -99,8 +100,6 @@
         </div>
     </section>
 </div>
-<script src="/plugins/jquery/jquery.min.js"></script>
-<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/dist/js/adminlte.min.js"></script>
+
 </body>
 </html>

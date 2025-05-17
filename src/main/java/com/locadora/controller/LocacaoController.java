@@ -16,7 +16,8 @@ public class LocacaoController {
     private final LocacaoService locacaoService;
     private final ExemplarService exemplarService;
 
-    public LocacaoController(LocacaoService locacaoService, ExemplarService exemplarService) {
+    public LocacaoController(LocacaoService locacaoService,
+                             ExemplarService exemplarService) {
         this.locacaoService = locacaoService;
         this.exemplarService = exemplarService;
     }
@@ -68,4 +69,5 @@ public class LocacaoController {
         locacaoService.finalizarLocacao(id);
         return "redirect:/locacoes";
     }
+
 }
