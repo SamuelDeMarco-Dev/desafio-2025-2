@@ -9,6 +9,12 @@
     <h1>Filmes Salvos</h1>
     <a class="btn btn-success mb-3" th:href="@{/}">Página Inicial</a> <br>
     <a class="btn btn-success mb-3" th:href="@{/filmes/novo}">Cadastrar novo filme</a>
+    <form class="form-inline mb-3" th:action="@{/filmes}" method="get">
+        <input type="text" name="filtro" class="form-control mr-2"
+               placeholder="Buscar por ID, Título ou Data (YYYY-MM-DD)"
+               th:value="${filtro}">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
     <table class="table table-bordered">
         <thead class="thead-light">
         <tr>

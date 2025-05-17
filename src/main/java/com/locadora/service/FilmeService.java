@@ -133,4 +133,15 @@ public class FilmeService {
             filmeRepository.save(filme);
         }
     }
+
+    public List<Filme> buscarPorFiltro(String filtro) {
+        return filmeRepository.findAll().stream()
+                .filter(filme ->
+                        (filme.getId() != null && String.valueOf(filme.getId()).contains(filtro)) ||
+                                (filme.getTitulo() != null && filme.getTitulo().toLowerCase().contains(filtro.toLowerCase())) ||
+                                (filme.getLancamento() != null && filme.getLancamento().toString().contains(filtro))
+                )
+                .collect(Collectors.toList());
+    }
+
 }

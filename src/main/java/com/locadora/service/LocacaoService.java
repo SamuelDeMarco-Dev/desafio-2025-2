@@ -109,4 +109,26 @@ public class LocacaoService {
                 })
                 .toList();
     }
+
+    public List<Locacao> buscarPorFiltro(String filtro) {
+        return locacaoRepository.findAll().stream()
+                .filter(loc ->
+                        containsIgnoreCase(loc.getCpf(), filtro) ||
+                                containsIgnoreCase(loc.getNome(), filtro) ||
+                                containsIgnoreCase(loc.getEmail(), filtro) ||
+                                (loc.getExemplar() != null && loc.getExemplar().getFilme() != null &&
+                                        containsIgnoreCase(loc.getExemplar().getFilme().getTitulo(), filtro))
+                )
+                .peek(loc -> {
+                    Hibernate.initialize(loc.getExemplar());
+                    Optional.ofNullable(loc.getExemplar())
+                            .ifPresent(exemplar -> Hibernate.initialize(exemplar.getFilme()));
+                })
+                .toList();
+    }
+
+    private boolean containsIgnoreCase(String field, String filtro) {
+        return field != null && field.toLowerCase().contains(filtro.toLowerCase());
+    }
+
 }

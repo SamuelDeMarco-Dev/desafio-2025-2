@@ -22,11 +22,20 @@ public class LocacaoController {
     }
 
     @GetMapping
-    public String listarLocacoes(Model model) {
-        List<Locacao> locacoes = locacaoService.listarTodasLocacoes();
+    public String listarLocacoes(@RequestParam(required = false) String filtro, Model model) {
+        List<Locacao> locacoes;
+
+        if (filtro != null && !filtro.isBlank()) {
+            locacoes = locacaoService.buscarPorFiltro(filtro);
+        } else {
+            locacoes = locacaoService.listarTodasLocacoes();
+        }
+
         model.addAttribute("locacoes", locacoes);
+        model.addAttribute("filtro", filtro);
         return "locacoes";
     }
+
 
     @GetMapping("/ativas")
     public String listarLocacoesAtivas(Model model) {

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/filmes")
@@ -29,8 +30,17 @@ public class FilmeController {
     }
 
     @GetMapping
-    public String listarFilmes(Model model) {
-        model.addAttribute("filmes", filmeService.listarTodos());
+    public String listarFilmes(@RequestParam(required = false) String filtro, Model model) {
+        List<Filme> filmes;
+
+        if (filtro != null && !filtro.isBlank()) {
+            filmes = filmeService.buscarPorFiltro(filtro.trim());
+        } else {
+            filmes = filmeService.listarTodos();
+        }
+
+        model.addAttribute("filmes", filmes);
+        model.addAttribute("filtro", filtro);
         return "filmes";
     }
 
@@ -104,7 +114,5 @@ public class FilmeController {
             return "filme-editar";
         }
     }
-
-
 
 }
