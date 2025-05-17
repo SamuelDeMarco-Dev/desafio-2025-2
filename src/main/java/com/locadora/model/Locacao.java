@@ -1,6 +1,7 @@
 package com.locadora.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,7 +25,10 @@ public class Locacao {
     private Exemplar exemplar;
 
     private String nome;
+
+    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "O CPF deve estar no formato 999.999.999-99")
     private String cpf;
+
     private String email;
     private String telefone;
 

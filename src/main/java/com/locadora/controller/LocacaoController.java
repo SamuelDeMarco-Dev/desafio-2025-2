@@ -37,7 +37,6 @@ public class LocacaoController {
         return "locacoes";
     }
 
-
     @GetMapping("/ativas")
     public String listarLocacoesAtivas(Model model) {
         List<Locacao> locacoes = locacaoService.listarLocacoesAtivas();

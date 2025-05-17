@@ -28,7 +28,7 @@
         <tbody>
         <tr th:each="exemplar : ${exemplares}">
             <td th:text="${exemplar.id}">1</td>
-            <td th:text="${exemplar.dataCadastro}">2025-01-01</td>
+            <td th:text="${exemplar.dataCadastro}"></td>
             <td>
           <span class="badge" th:classappend="${exemplar.ativo} ? 'badge-success' : 'badge-danger'"
                 th:text="${exemplar.ativo} ? 'Sim' : 'Não'"></span>
@@ -52,5 +52,6 @@
         <a th:href="@{/filmes}" class="btn btn-secondary">Voltar</a>
     </div>
 </div>
+
 </body>
 </html>

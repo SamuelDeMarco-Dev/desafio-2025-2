@@ -141,7 +141,6 @@ public class ExemplarService {
         atualizarExemplaresDisponiveis(filme);
     }
 
-
     public List<Exemplar> listarPorFilme(Long filmeId) {
         return exemplarRepository.findByFilmeId(filmeId);
     }

@@ -5,27 +5,25 @@
     <title>Lista de Filmes</title>
     <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/filmes.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/inputmask.min.js"></script>
+
 </head>
 <body>
 <div class="container container-padrao">
 
     <h2>Filmes Salvos</h2>
-
-    <!-- Botões superiores -->
     <div class="btn-grupo">
         <a class="btn btn-success" th:href="@{/}">Página Inicial</a>
         <a class="btn btn-primary" th:href="@{/filmes/novo}">Cadastrar novo filme</a>
     </div>
 
-    <!-- Campo de busca -->
     <form class="form-group mt-4" th:action="@{/filmes}" method="get">
-        <label for="filtro">Buscar por ID, Título ou Data (YYYY-MM-DD):</label>
+        <label for="filtro">Buscar por ID ou Título:</label>
         <input type="text" name="filtro" id="filtro" class="form-control mb-2"
-               placeholder="Ex: 1, Matrix, 2025-01-01" th:value="${filtro}">
+               placeholder="Ex: 1, Matrix" th:value="${filtro}">
         <button type="submit" class="btn btn-primary mt-2">Buscar</button>
     </form>
 
-    <!-- Tabela de filmes -->
     <table class="table table-bordered table-striped mt-4">
         <thead class="thead-light">
         <tr>
@@ -43,7 +41,7 @@
             <td th:text="${filme.titulo}">Título</td>
             <td th:text="${filme.resumo}" class="justificar">Resumo</td>
             <td th:text="${filme.pontuacao}">0.0</td>
-            <td th:text="${filme.lancamento}">Data</td>
+            <td class="data-lancamento" th:text="${filme.lancamento}"></td>
             <td th:text="${filme.exemplaresDisponiveis}">0</td>
             <td>
           <span class="badge"
@@ -59,5 +57,24 @@
     </table>
 
 </div>
+
+<script>
+    function formatarDataIsoParaBr(dataIso) {
+        const partes = dataIso.split("-");
+        if (partes.length === 3) {
+            return `${partes[2]}/${partes[1]}/${partes[0]}`;
+        }
+        return dataIso;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const campos = document.querySelectorAll(".data-lancamento");
+        campos.forEach(td => {
+            const dataOriginal = td.textContent.trim();
+            td.textContent = formatarDataIsoParaBr(dataOriginal);
+        });
+    });
+</script>
+
 </body>
 </html>
