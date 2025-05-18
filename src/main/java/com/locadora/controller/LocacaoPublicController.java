@@ -18,7 +18,7 @@ public class LocacaoPublicController {
         this.locacaoService = locacaoService;
     }
 
-    //http://localhost:8081/api/public/locacoes?cpf=09232016966
+    //http://localhost:8081/api/public/locacoes?cpf=999.999.999-99
     @GetMapping("/locacoes")
     public ResponseEntity<?> consultarPorCpf(@RequestParam String cpf) {
         List<Locacao> locacoes = locacaoService.consultarLocacoesPendentesPorCpf(cpf);

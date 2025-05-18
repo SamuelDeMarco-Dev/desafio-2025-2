@@ -61,11 +61,11 @@ public class LocacaoService {
             locacao.setFinalizada(false);
 
             String qrCode = qrCodeUtil.generateQRCode((locacao));
-            System.out.println("[QRCode BASE64] -> " + qrCode);
+            //System.out.println("[QRCode BASE64] -> " + qrCode);
 
             locacao.setQrCode(qrCode);
 
-            System.out.println("[SALVANDO LOCACACAO] " + locacao.getNome() + " - " + locacao.getCpf());
+            //System.out.println("[SALVANDO LOCACACAO] " + locacao.getNome() + " - " + locacao.getCpf());
 
             return locacaoRepository.save(locacao);
 
